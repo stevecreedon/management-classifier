@@ -24,7 +24,7 @@ module ManagerClassifier
           if classification['buzzwords'].count > 0
             "document #{@key} uploaded, found #{ classification['buzzwords'] } score of #{ classification['score'] }"
           else 
-            "no buzzwords found...."
+            "no buzzwords found in #{@key}...."
           end
         end
 

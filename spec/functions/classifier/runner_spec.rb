@@ -8,14 +8,14 @@ describe ManagerClassifier::Functions::Classifier::Runner do
   context 'matching buzzwords' do
 
     let(:text){
-      "Hi John, nice idea, let's align on this issue and loop back on the redundancies on our internal customer profile"
+      "Hi John, nice idea, let's align on this issue and loop back on any redundancies in our internal customer profile"
     }
 
     it 'returns three buzzword matches' do
       expect(subject.matches).to eq ["customer profile", "align", "loop back"]
     end
 
-    it 'returns a score' do
+    it 'returns a score of 0.25 as 5 of the 20 words are from buzzwords' do
       expect(subject.score).to eq 0.25
     end
 

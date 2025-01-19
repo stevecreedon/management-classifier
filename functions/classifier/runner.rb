@@ -1,16 +1,19 @@
 require 'yaml'
+require 'lib/aws/cloudwatch'
 
 module ManagerClassifier
   module Functions
     module Classifier
 
       class Runner
+        include ManagerClassifier::Aws::Cloudwatch
 
         def initialize(text)
           @text = text.downcase
         end
 
         def classify
+          log_message("classifying text")
           { buzzwords: matches, score: score }
         end
 

@@ -1,5 +1,4 @@
 require 'lib/aws/s3_event'
-require 'lib/aws/cloudwatch'
 require_relative 'runner'
 
 module ManagerClassifier

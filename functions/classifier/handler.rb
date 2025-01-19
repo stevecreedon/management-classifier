@@ -2,13 +2,11 @@ require 'json'
 require_relative 'runner'
 require 'lib/aws/http_post_request'
 
-
 module ManagerClassifier
   module Functions
     module Classifier
 
       def self.handle(event:, context:)
-
         text = ManagerClassifier::Aws::HttpPostRequest.new(event).json['text']
         
         {

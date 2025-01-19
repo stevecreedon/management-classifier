@@ -1,4 +1,5 @@
 require 'lib/aws/s3'
+require 'lib/aws/cloudwatch'
 require_relative 'classifier'
 require_relative 'slack'
 

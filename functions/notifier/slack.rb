@@ -1,12 +1,14 @@
 require 'rexml'
 require 'httparty'
 require 'json'
+require 'lib/aws/cloudwatch'
 
 module ManagerClassifier
   module Functions
     module Notifier
       class Slack
         include HTTParty
+        include ManagerClassifier::Aws::Cloudwatch
 
         base_uri ENV.fetch("SLACK_URI")
 
@@ -15,43 +17,15 @@ module ManagerClassifier
         end
 
         def send
-          self.class.post(ENV.fetch("SLACK_PATH"), body: { text: @text }.to_json, headers: headers)
+          log_message("sending slack message")
+          self.class.post(slack_path, body: { text: @text }.to_json)
         end
 
-        def headers
-          {
-            'Content-Type' => 'application/json',
-            'Accepts' => 'text/plain',
-            'Authorization' => "Bearer #{token}"
-          }
+        def slack_path 
+          ENV.fetch("SLACK_PATH")
         end
 
-        def token
-
-        end
       end
     end
   end
-end
-
-def send_text(channel, text)
-  data = { channel: channel, text: text }
-  result = JSON.parse(Net::HTTP.post(uri, data.to_json , header).body)
-  raise SlackFailure.new(result, data) unless result['ok']
-end
-
-def header
-  {
-    'Content-Type' => 'application/json',
-    'Accepts' => 'text/plain',
-    'Authorization' => "Bearer #{token}"
-  }
-end
-
-def token
-  ENV['SLACK_TOKEN']
-end
-
-def uri 
-  URI("https://slack.com/api/chat.postMessage")
 end

@@ -11,12 +11,11 @@ module ManagerClassifier
         include ManagerClassifier::Aws::Cloudwatch
 
         def initialize(key)
+          log_message("document #{key}  uploaded")
           @key = key
         end
 
         def run!
-          log_message("reading #{@key}")
-          log_message("posting #{text} to classifier #{ENV.fetch("CLASSIFIER_URI")}")
           log_message("posting #{message} to slack #{ENV.fetch("CLASSIFIER_URI")}")
           Slack.new(message).send
         end
@@ -30,10 +29,12 @@ module ManagerClassifier
         end
 
         def text
+          log_message("reading #{@key}")
           @text ||= read(@key)
         end
 
         def classification
+          log_message("posting #{text} to classifier #{ENV.fetch("CLASSIFIER_URI")}")
           @classification ||= Classifier.new(text).call
         end
 
